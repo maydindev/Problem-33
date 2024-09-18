@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext,useState } from 'react'
 
 function useUserData() {
   return {
@@ -9,10 +9,15 @@ function useUserData() {
   }
 }
 
-const UserContext = createContext(false)
+const UserContext = createContext(useUserData())
 
 export default function App() {
-  return <ProfilePage />
+  const [userData,setUserData] = useState(useUserData())
+  return (
+    <UserContext.Provider value={userData}>
+  <ProfilePage />
+  </UserContext.Provider>
+  )
 }
 
 function ProfilePage() {
@@ -27,6 +32,7 @@ function ProfilePage() {
 }
 
 function ProfileInfo() {
+  const data = useContext(UserContext)
   return (
     <div className='border-b border-gray-900/10 pb-12'>
       <h2 className='text-base font-semibold leading-7 text-gray-900'>
@@ -54,6 +60,7 @@ function ProfileInfo() {
                 type='text'
                 name='username'
                 id='username'
+                value={data.username}
                 autoComplete='username'
                 className='block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6'
                 placeholder='namıkkorona'
@@ -67,6 +74,7 @@ function ProfileInfo() {
 }
 
 function PersonalInfo() {
+  const data = useContext(UserContext)
   return (
     <div className='border-b border-gray-900/10 pb-12'>
       <h2 className='text-base font-semibold leading-7 text-gray-900'>
@@ -89,6 +97,7 @@ function PersonalInfo() {
               type='text'
               name='first-name'
               id='first-name'
+              value={data.firstName}
               autoComplete='given-name'
               className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
             />
@@ -107,6 +116,7 @@ function PersonalInfo() {
               type='text'
               name='last-name'
               id='last-name'
+              value={data.lastName}
               autoComplete='family-name'
               className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
             />
@@ -124,6 +134,7 @@ function PersonalInfo() {
             <input
               id='email'
               name='email'
+              value={data.emailAddress}
               type='email'
               autoComplete='email'
               className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
