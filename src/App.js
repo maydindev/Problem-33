@@ -9,7 +9,7 @@ function useUserData() {
   }
 }
 
-const UserContext = createContext(useUserData())
+const UserContext = createContext(false)
 
 export default function App() {
   const [userData,setUserData] = useState(useUserData())
